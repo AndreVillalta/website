@@ -1,0 +1,95 @@
+:host { display: block; }
+
+.entrada { max-width: 44rem; }
+
+.pilares {
+  display: grid;
+  gap: 0;
+  margin-top: 2rem;
+  list-style: none;
+  border-top: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
+}
+
+@media (min-width: 768px) {
+  .pilares { grid-template-columns: repeat(2, 1fr); }
+  /* Separadores en cruz entre los cuatro pilares. */
+  .pilares > li:nth-child(odd) {
+    border-right: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
+    padding-right: 2.5rem;
+  }
+  .pilares > li:nth-child(even) { padding-left: 2.5rem; }
+}
+
+.pilares > li {
+  padding-block: 1rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
+}
+
+.pilares h3 {
+  font-size: clamp(1.15rem, 1.9vw, 1.45rem);
+  font-weight: 200;
+  color: var(--color-bone);
+}
+
+.pilares p {
+  margin-top: 0.7rem;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  color: var(--color-bone-dim);
+}
+
+.prueba { margin-top: 1.5rem; }
+
+.puente { color: var(--color-bone-mute); }
+
+.testimonio {
+  max-width: 48rem;
+  margin-top: 2rem;
+}
+
+.testimonio p {
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
+  font-weight: 200;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+  color: var(--color-bone);
+}
+
+.testimonio footer {
+  margin-top: 1.75rem;
+  font-size: 0.85rem;
+}
+
+.testimonio cite {
+  display: block;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--color-brand-gold);
+}
+
+.testimonio footer span { color: var(--color-bone-mute); }
+
+/* Estado reservado: honesto y evidentemente reemplazable. */
+.reservado {
+  max-width: 44rem;
+  margin-top: 2rem;
+  padding: 2.25rem;
+  border: 1px dashed color-mix(in srgb, var(--color-brand-gold) 32%, transparent);
+  border-radius: 12px;
+  background-color: color-mix(in srgb, var(--color-ink-800) 55%, transparent);
+}
+
+.marca-reservado {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-brand-gold);
+}
+
+.reservado .detalle {
+  margin-top: 0.9rem;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  color: var(--color-bone-mute);
+}

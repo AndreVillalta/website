@@ -1,0 +1,32 @@
+<section id="acto-03" class="acto" aria-labelledby="titulo-acto-03" appRevealSection>
+  <div class="frame">
+    <div class="entrada">
+      <p class="eyebrow" data-reveal="up">03 <span class="sep">/</span> La solucion</p>
+
+      <h2 id="titulo-acto-03" class="titular" data-reveal="line">
+        Soluciones que reducen riesgos<br />
+        y mejoran el <span class="oro">desempeno</span>.
+      </h2>
+
+      <p class="bajada" data-reveal="up">
+        Identificamos los desafios reales de su organizacion y disenamos
+        respuestas a medida en Seguridad, Salud Ocupacional, Medio Ambiente y
+        Calidad.
+      </p>
+    </div>
+
+    <ol class="lista-editorial">
+      @for (d of disciplinas; track d.indice) {
+        <li #fila data-reveal="up">
+          <span class="indice" aria-hidden="true">{{ d.indice }}</span>
+          <h3>{{ d.titulo }}</h3>
+          <p>{{ d.texto }}</p>
+        </li>
+      }
+    </ol>
+
+    <div class="pie-acto" data-reveal="up">
+      <app-boton-ver-mas ruta="/detalle/soluciones">Ver mas</app-boton-ver-mas>
+    </div>
+  </div>
+</section>

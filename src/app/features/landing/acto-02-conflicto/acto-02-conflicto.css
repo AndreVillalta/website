@@ -1,0 +1,74 @@
+:host { display: block; }
+
+/* El acto mas oscuro: la vinieta se cierra y el oro casi desaparece. */
+.conflicto::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 90% 70% at 50% 50%,
+    transparent 20%,
+    color-mix(in srgb, var(--color-ink-900) 78%, transparent) 100%
+  );
+}
+
+.entrada { max-width: 44rem; }
+
+.tensiones {
+  display: grid;
+  gap: 1.75rem;
+  margin-top: 2.5rem;
+  list-style: none;
+}
+
+@media (min-width: 900px) {
+  .tensiones {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.25rem;
+  }
+  /* Parallax estatico: cada bloque descansa a distinta altura. */
+  .tensiones > li:nth-child(2) { transform: translateY(2.5rem); }
+  .tensiones > li:nth-child(3) { transform: translateY(-1.5rem); }
+}
+
+.tensiones > li {
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-bone) 12%, transparent);
+}
+
+.indice {
+  display: block;
+  font-size: var(--text-meta);
+  letter-spacing: var(--text-meta--letter-spacing);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-bone-mute);
+}
+
+.tensiones h3 {
+  margin-top: 1.25rem;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  font-weight: 200;
+  color: var(--color-bone);
+}
+
+.tensiones p {
+  margin-top: 0.85rem;
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  color: var(--color-bone-dim);
+}
+
+/* El silencio antes de la respuesta. */
+.veredicto {
+  max-width: 40rem;
+  margin: clamp(2rem, 5vh, 3.5rem) auto 0;
+  font-size: clamp(1.4rem, 3vw, 2.25rem);
+  font-weight: 200;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--color-bone);
+}

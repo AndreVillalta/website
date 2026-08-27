@@ -1,0 +1,17 @@
+<nav class="rail" aria-label="Indice de la pagina">
+  <p class="titulo">En esta pagina</p>
+  <ul>
+    @for (acto of actos; track acto.id) {
+      <li>
+        <a
+          [href]="'#' + acto.id"
+          [class.activo]="activo() === acto.id"
+          [attr.aria-current]="activo() === acto.id ? 'true' : null"
+        >
+          <span class="guion" aria-hidden="true"></span>
+          <span class="texto">{{ acto.texto }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

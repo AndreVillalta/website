@@ -1,0 +1,21 @@
+<div class="escenario" aria-hidden="true">
+  @if (conWebgl()) {
+    <!-- El canvas pinta tambien el fondo de la pagina: sin una segunda capa
+         detras, no hay borde donde el casco pueda recortarse. -->
+    <canvas #canvas class="lienzo" [class.visible]="listo()"></canvas>
+  } @else {
+    <div class="luz-fria"></div>
+    <div class="luz-calida"></div>
+    <video
+      class="casco-video"
+      src="/videos/casco.mp4"
+      muted
+      playsinline
+      loop
+      autoplay
+      preload="none"
+      disablepictureinpicture
+      aria-hidden="true"
+    ></video>
+  }
+</div>

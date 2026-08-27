@@ -1,0 +1,102 @@
+:host { display: block; }
+
+/* Espejo del Hero: el bloque se alinea a la derecha y el casco ocupa la izquierda. */
+.bloque {
+  max-width: 42rem;
+}
+
+@media (min-width: 1024px) {
+  .bloque {
+    margin-left: auto;
+    text-align: right;
+  }
+  .bloque .bajada { margin-left: auto; }
+  .cifras .fila { grid-template-columns: minmax(0, 1fr) 10rem; }
+  .cifras dt { order: 2; text-align: right; }
+  .cifras dd { order: 1; text-align: right; }
+}
+
+.cifras {
+  margin-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 0.3rem 2rem;
+  align-items: baseline;
+  padding-block: 0.45rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
+}
+
+dt {
+  font-size: var(--text-meta);
+  letter-spacing: var(--text-meta--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-bone-mute);
+}
+
+.valor {
+  display: block;
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--color-bone);
+  font-variant-numeric: tabular-nums;
+}
+
+.valor .afijo { color: var(--color-brand-gold); }
+
+.descriptor {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: var(--color-bone-dim);
+}
+
+/* --- Cinta de sectores ---------------------------------------------------- */
+.cinta {
+  margin-top: 0.75rem;
+  padding-block: 0.5rem;
+  overflow: hidden;
+  border-block: 1px solid color-mix(in srgb, var(--color-bone) 8%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+.pista {
+  display: flex;
+  width: max-content;
+  animation: desplazar 42s linear infinite;
+}
+
+.cinta:hover .pista { animation-play-state: paused; }
+
+.grupo {
+  display: flex;
+  align-items: center;
+}
+
+.sector {
+  padding-inline: 1.25rem;
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  font-weight: 200;
+  /* bone-dim, no bone-mute: el fondo no es un solido fijo sino el canvas 3D,
+     que a veces brilla mas que --color-ink-900 (el casco, la aureola). Con
+     mute el contraste raspa el minimo AA y cae por debajo cuando eso pasa. */
+  color: var(--color-bone-dim);
+  white-space: nowrap;
+}
+
+.bullet { color: var(--color-brand-gold); }
+
+@keyframes desplazar {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pista { animation: none; }
+}

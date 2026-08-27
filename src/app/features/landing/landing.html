@@ -1,0 +1,47 @@
+<app-casco-flotante />
+<app-rail-scroll />
+
+<!--
+  `#actos` define el rango del scrubbing del casco: del principio del Hero al
+  final del Cierre.
+
+  Los actos 01 a 05 usan `hydrate on viewport`: el servidor entrega el HTML
+  completo —el copy esta en el prerender, no lo inyecta JavaScript— y lo unico
+  que se difiere es la hidratacion. Asi el SEO y el LCP no pagan por el @defer,
+  pero el trabajo en el hilo principal si se reparte. El `on viewport` de
+  acompanamiento cubre la navegacion desde el cliente, donde no hubo prerender;
+  su @placeholder solo se ve en ese camino.
+-->
+<div id="actos">
+  <app-acto-00-hero />
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-acto-01-autoridad />
+  } @placeholder {
+    <div class="reserva" aria-hidden="true"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-acto-02-conflicto />
+  } @placeholder {
+    <div class="reserva" aria-hidden="true"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-acto-03-solucion />
+  } @placeholder {
+    <div class="reserva" aria-hidden="true"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-acto-04-prueba />
+  } @placeholder {
+    <div class="reserva" aria-hidden="true"></div>
+  }
+
+  @defer (on viewport; hydrate on viewport) {
+    <app-acto-05-cierre />
+  } @placeholder {
+    <div class="reserva" aria-hidden="true"></div>
+  }
+</div>

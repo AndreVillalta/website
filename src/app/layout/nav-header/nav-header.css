@@ -1,0 +1,227 @@
+:host {
+  display: contents;
+}
+
+.cabecera {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: 100%;
+  padding-block: 1.5rem;
+  transition: padding-block 0.5s var(--ease-cine);
+}
+
+.cabecera.compacta {
+  padding-block: 0.85rem;
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition:
+    background-color 0.5s var(--ease-cine),
+    border-color 0.5s var(--ease-cine),
+    backdrop-filter 0.5s var(--ease-cine),
+    max-width 0.6s var(--ease-cine),
+    padding 0.5s var(--ease-cine);
+}
+
+/* Al scrollear la barra se encoge en una pildora flotante. */
+.cabecera.compacta .barra {
+  max-width: 62rem;
+  margin-inline: auto;
+  padding: 0.55rem 1.5rem;
+  /*padding-block: 0.55rem;*/
+  background-color: color-mix(in srgb, var(--color-ink-800) 82%, transparent);
+  border-color: color-mix(in srgb, var(--color-bone) 8%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.marca {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-bone);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/*
+  Marcador invisible: mismo alto que el logo real y su misma proporcion (la
+  del isotipo del Hero, viewBox 1448x1086), pegado al borde izquierdo — que
+  es donde vive el isotipo dentro del lockup combinado. Le da a
+  `logo-flip.ts` un rectangulo real para medir "donde aterriza" el vuelo,
+  sin tener que partir los SVG del header en isotipo + wordmark.
+*/
+.isotipo-slot {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: clamp(2rem, 5vw, 2.8rem);
+  aspect-ratio: 1448 / 1086;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/*
+  El logo nunca se achica: sin flex-shrink:0 quedaba comprimido por el
+  flexbox al pasar la barra a su max-width mas angosto (pildora, al
+  scrollear), porque enlaces + CTA + logo ya no entraban en el ancho
+  disponible y todo el conjunto encogia junto.
+*/
+.marca img {
+  display: none;
+  flex-shrink: 0;
+  width: auto;
+  height: clamp(2rem, 5vw, 2.8rem);
+  transition: opacity 0.25s var(--ease-cine);
+}
+
+/* Mientras el isotipo del Hero no "aterrizo" (ver `logo-flip.ts`), el logo
+   combinado del header queda invisible pero ocupando su lugar. */
+.marca.logo-oculto img {
+  opacity: 0;
+}
+
+.marca .logo-mobile { display: block; }
+
+@media (min-width: 900px) {
+  .marca .logo-mobile { display: none; }
+  .marca .logo-desktop { display: block; }
+}
+
+.enlaces {
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2rem;
+}
+
+/*
+  El orden importa: esta regla base de .hamburguesa tiene que venir ANTES
+  del media query de abajo. Con la misma especificidad, si el media query
+  quedara primero en el archivo, el "display:flex" de la definicion base
+  (mas adelante en el CSS) ganaria el empate de cascada y la hamburguesa
+  quedaria visible tambien en desktop, aunque la condicion de ancho diga
+  lo contrario.
+*/
+.hamburguesa {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+@media (min-width: 900px) {
+  .enlaces { display: flex; }
+  .hamburguesa { display: none; }
+}
+
+.enlace {
+  position: relative;
+  color: var(--color-bone-dim);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: color 0.35s var(--ease-cine);
+}
+
+.enlace::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-brand-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease-cine);
+}
+
+.enlace:hover { color: var(--color-bone); }
+.enlace:hover::after { transform: scaleX(1); }
+
+.cta-nav {
+  padding: 0.65rem 1.35rem;
+  border: 1px solid color-mix(in srgb, var(--color-brand-gold) 55%, transparent);
+  border-radius: 999px;
+  color: var(--color-brand-gold);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition:
+    background-color 0.4s var(--ease-cine),
+    color 0.4s var(--ease-cine),
+    border-color 0.4s var(--ease-cine);
+}
+
+.cta-nav:hover {
+  background-color: var(--color-brand-gold);
+  border-color: var(--color-brand-gold);
+  color: var(--color-ink-900);
+}
+
+.linea {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background: var(--color-bone);
+  transition: transform 0.4s var(--ease-cine);
+}
+
+.linea.uno { transform: translateY(3.75px) rotate(45deg); }
+.linea.dos { transform: translateY(-3.75px) rotate(-45deg); }
+
+.menu-movil {
+  position: fixed;
+  inset: 0;
+  z-index: 39;
+  display: flex;
+  align-items: center;
+  background-color: color-mix(in srgb, var(--color-ink-900) 97%, transparent);
+  backdrop-filter: blur(20px);
+}
+
+.menu-movil nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.menu-movil a {
+  color: var(--color-bone);
+  font-size: 1.75rem;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+}
+
+.menu-movil .destacado { color: var(--color-brand-gold); }
+
+.menu-movil .portal {
+  margin-top: 1rem;
+  color: var(--color-bone-mute);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}

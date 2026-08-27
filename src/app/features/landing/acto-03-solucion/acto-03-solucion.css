@@ -1,0 +1,7 @@
+:host { display: block; }
+
+.entrada { max-width: 44rem; }
+
+@media (min-width: 1024px) {
+  .entrada { max-width: 40rem; }
+}

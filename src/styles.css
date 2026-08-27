@@ -1,0 +1,334 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Tipografia — Montserrat variable, subset latin, auto-hospedada.
+   Un unico archivo de 38 KB cubre los pesos 200 a 800, en vez de tres
+   estaticos, y evita el <link> bloqueante a Google Fonts.
+--------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/montserrat-var.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ---------------------------------------------------------------------------
+   Sistema de diseno
+--------------------------------------------------------------------------- */
+@theme {
+  /* Marca — valores canonicos de las especificaciones */
+  --color-brand-blue: #537aaf;
+  --color-brand-blue-soft: #7ea3d1;
+  --color-brand-gold: #c89a3c;
+  --color-brand-gold-soft: #e0b95f;
+
+  /* Carbon — profundo, nunca negro puro */
+  --color-ink-900: #0b0d12;
+  --color-ink-850: #0e1118;
+  --color-ink-800: #101420;
+  --color-ink-700: #161b29;
+  --color-ink-600: #232a3d;
+
+  /* Luz — el casco */
+  --color-bone: #f2f0ec;
+  --color-bone-dim: #a8aebc;
+  --color-bone-mute: #7b8496;
+
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Escala tipografica cinematografica */
+  --text-eyebrow: 0.72rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.28em;
+
+  --text-display: clamp(2.6rem, 6.4vw, 5.75rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.03em;
+
+  --text-acto: clamp(2rem, 5.5vw, 4.5rem);
+  --text-acto--line-height: 1;
+  --text-acto--letter-spacing: -0.025em;
+
+  --text-lead: clamp(1.05rem, 1.6vw, 1.35rem);
+  --text-lead--line-height: 1.6;
+
+  --text-body: clamp(0.95rem, 1.1vw, 1.0625rem);
+  --text-body--line-height: 1.75;
+
+  --text-meta: 0.75rem;
+  --text-meta--line-height: 1.5;
+  --text-meta--letter-spacing: 0.18em;
+
+  /* Ritmo de la pelicula */
+  --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Gutter reservado para el indice lateral en pantallas anchas. */
+  --rail-gutter: 17rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: #22202e;
+    color: var(--color-bone-dim);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-synthesis-weight: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 {
+    color: var(--color-bone);
+    font-weight: 200;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-gold);
+    color: var(--color-ink-900);
+  }
+
+  /* Foco visible unico para todo el sitio, incluido el acceso al portal */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-ink-900); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-ink-600);
+    border-radius: 999px;
+    border: 3px solid var(--color-ink-900);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-brand-blue); }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilidades de la direccion de arte
+--------------------------------------------------------------------------- */
+@utility eyebrow {
+  font-size: var(--text-eyebrow);
+  line-height: var(--text-eyebrow--line-height);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--color-brand-gold);
+}
+
+@utility hairline-x {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--color-bone) 14%, transparent),
+    color-mix(in srgb, var(--color-bone) 4%, transparent)
+  );
+}
+
+/* Marco de encuadre: el contenedor de todos los actos */
+@utility frame {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .frame { padding-inline: 3rem; }
+}
+
+@media (min-width: 1280px) {
+  .frame { padding-inline: 5rem; }
+}
+
+/* A partir de aca aparece el indice lateral: el encuadre le cede el margen. */
+@media (min-width: 1280px) {
+  .frame { padding-left: var(--rail-gutter); }
+}
+
+/* ---------------------------------------------------------------------------
+   Estados iniciales de animacion.
+   Se declaran en CSS (no en JS) para que el HTML prerenderizado ya salga con
+   el estado correcto y no haya un flash de contenido antes de que cargue GSAP.
+   `.js-ready` lo agrega el bootstrap del navegador; sin JS, todo queda visible.
+--------------------------------------------------------------------------- */
+.js-ready [data-reveal] {
+  opacity: 0;
+}
+
+.js-ready [data-reveal="line"] {
+  clip-path: inset(105% 0 0 0);
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Movimiento reducido — se respeta a nivel CSS y tambien a nivel JS.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js-ready [data-reveal] {
+    opacity: 1 !important;
+    clip-path: none !important;
+    transform: none !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Piezas compartidas por los actos.
+   Viven en el hoja global para que los seis componentes no repitan el mismo
+   bloque de tipografia y espaciado.
+--------------------------------------------------------------------------- */
+@layer components {
+  /*
+   * Cada acto ocupa una pantalla: es lo que hace posible el scroll por
+   * saltos de `acto-snap.ts` (un golpe de rueda salta directo al siguiente).
+   * `display: flex` + `justify-content: center` centra el contenido cuando
+   * es mas corto que el viewport, igual que ya hacian `.hero` y `.cierre`.
+   */
+  .acto {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100dvh;
+    padding-block: clamp(2rem, 4vh, 3.5rem);
+  }
+
+  /*
+   * El fondo del titular y la bajada no es un color solido: es el canvas del
+   * casco 3D, que varia de brillo con el scroll. Un texto claro fijo puede
+   * perder contraste cuando el casco (blanco, brillante) pasa detras. Esta
+   * sombra ajustada —radio chico, sin difuminar el texto— evita depender de
+   * donde este el casco en cada momento, sin necesidad de oscurecerlo a el.
+   */
+  .acto .titular,
+  .acto .bajada {
+    text-shadow:
+      0 1px 3px color-mix(in srgb, var(--color-ink-900) 65%, transparent),
+      0 4px 18px color-mix(in srgb, var(--color-ink-900) 55%, transparent);
+  }
+
+  .acto .titular {
+    margin-top: 1rem;
+    font-size: var(--text-acto);
+    line-height: var(--text-acto--line-height);
+    letter-spacing: var(--text-acto--letter-spacing);
+    font-weight: 200;
+  }
+
+  .acto .bajada {
+    max-width: 38rem;
+    margin-top: 1.25rem;
+    font-size: var(--text-lead);
+    line-height: var(--text-lead--line-height);
+    color: var(--color-bone-dim);
+  }
+
+  .acto .oro { color: var(--color-brand-gold); }
+  /* bone-dim, no bone-mute: mismo motivo que .sector en acto-01 — el fondo
+     real es el canvas 3D, no un solido, y mute raspa el contraste minimo. */
+  .acto .sep { color: var(--color-bone-dim); }
+
+  .acto .pie-acto { margin-top: 0.85rem; }
+
+  /* Fila editorial numerada: reemplaza a las tarjetas. */
+  .lista-editorial {
+    margin-top: 0.75rem;
+    list-style: none;
+    border-top: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
+  }
+
+  .lista-editorial > li {
+    position: relative;
+    display: grid;
+    gap: 0.25rem 2rem;
+    padding-block: 0.65rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .lista-editorial > li {
+      grid-template-columns: 4rem minmax(0, 15rem) minmax(0, 1fr);
+      align-items: baseline;
+    }
+  }
+
+  .lista-editorial .indice {
+    font-size: var(--text-meta);
+    letter-spacing: var(--text-meta--letter-spacing);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-bone-mute);
+    transition: color 0.45s var(--ease-cine);
+  }
+
+  .lista-editorial h3 {
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    font-weight: 200;
+    letter-spacing: -0.015em;
+  }
+
+  .lista-editorial p {
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    color: var(--color-bone-dim);
+  }
+
+  /* Subrayado que crece desde la izquierda al enfocar la fila. */
+  .lista-editorial > li::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-brand-gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.55s var(--ease-cine);
+  }
+
+  .lista-editorial > li:hover::after,
+  .lista-editorial > li.activa::after { transform: scaleX(1); }
+
+  .lista-editorial > li:hover .indice,
+  .lista-editorial > li.activa .indice { color: var(--color-brand-gold); }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}

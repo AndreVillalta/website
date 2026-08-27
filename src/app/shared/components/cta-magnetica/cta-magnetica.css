@@ -1,0 +1,111 @@
+:host {
+  display: inline-block;
+}
+
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 1.05rem 2.1rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  overflow: hidden;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color 0.45s var(--ease-cine),
+    border-color 0.45s var(--ease-cine),
+    color 0.45s var(--ease-cine);
+}
+
+.contorno {
+  border-color: color-mix(in srgb, var(--color-brand-gold) 50%, transparent);
+  color: var(--color-brand-gold);
+}
+.contorno:hover {
+  border-color: var(--color-brand-gold);
+  background-color: color-mix(in srgb, var(--color-brand-gold) 10%, transparent);
+}
+
+.solida {
+  background-color: var(--color-brand-gold);
+  border-color: var(--color-brand-gold);
+  color: var(--color-ink-900);
+}
+.solida:hover {
+  background-color: var(--color-brand-gold-soft);
+  border-color: var(--color-brand-gold-soft);
+}
+
+.fantasma {
+  border-color: color-mix(in srgb, var(--color-bone) 16%, transparent);
+  color: var(--color-bone-dim);
+}
+.fantasma:hover {
+  border-color: color-mix(in srgb, var(--color-bone) 38%, transparent);
+  color: var(--color-bone);
+}
+
+/* Destello diagonal que barre el boton al pasar el cursor. */
+.brillo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 35%,
+    color-mix(in srgb, var(--color-bone) 26%, transparent) 50%,
+    transparent 65%
+  );
+  transform: translateX(-110%);
+  transition: transform 0.85s var(--ease-cine);
+}
+
+.cta:hover .brillo {
+  transform: translateX(110%);
+}
+
+.texto,
+.flecha {
+  position: relative;
+}
+
+.flecha {
+  width: 1.1rem;
+  height: 1.1rem;
+  transition: transform 0.45s var(--ease-cine);
+}
+
+.cta:hover .flecha {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brillo { display: none; }
+  .cta:hover .flecha { transform: none; }
+}
+
+/*
+  Con "white-space: nowrap" un texto largo como "Hablemos de su proximo
+  proyecto" se desborda del viewport en un telefono y queda cortado. Por debajo
+  de 560 px el boton pasa a ocupar el ancho completo y se permite el salto.
+*/
+@media (max-width: 560px) {
+  :host {
+    display: block;
+    width: 100%;
+  }
+
+  .cta {
+    width: 100%;
+    justify-content: center;
+    padding-inline: 1.25rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-align: center;
+    white-space: normal;
+  }
+}

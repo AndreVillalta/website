@@ -1,0 +1,45 @@
+<header class="cabecera" [class.compacta]="compacta()">
+  <nav class="frame barra" aria-label="Navegacion principal">
+    <a
+      href="#acto-00"
+      class="marca"
+      [class.logo-oculto]="!headerLogoListo()"
+      aria-label="GB Consultores, ir al inicio"
+    >
+      <span class="isotipo-slot" #logoSlot aria-hidden="true"></span>
+      <img src="/logo-header-mobile.svg" alt="" class="logo-mobile" aria-hidden="true" />
+      <img src="/logo-header-desktop.svg" alt="" class="logo-desktop" aria-hidden="true" />
+    </a>
+
+    <div class="enlaces">
+      @for (e of enlaces; track e.href) {
+        <a [href]="e.href" class="enlace">{{ e.texto }}</a>
+      }
+      <a href="#acto-05" class="cta-nav">Hablemos</a>
+    </div>
+
+    <button
+      type="button"
+      class="hamburguesa"
+      (click)="alternarMenu()"
+      [attr.aria-expanded]="menuAbierto()"
+      aria-controls="menu-movil"
+      aria-label="Abrir menu de navegacion"
+    >
+      <span class="linea" [class.uno]="menuAbierto()"></span>
+      <span class="linea" [class.dos]="menuAbierto()"></span>
+    </button>
+  </nav>
+</header>
+
+@if (menuAbierto()) {
+  <div id="menu-movil" class="menu-movil">
+    <nav class="frame" aria-label="Navegacion movil">
+      @for (e of enlaces; track e.href) {
+        <a [href]="e.href" (click)="cerrarMenu()">{{ e.texto }}</a>
+      }
+      <a href="#acto-05" class="destacado" (click)="cerrarMenu()">Hablemos</a>
+      <a routerLink="/portal" class="portal" (click)="cerrarMenu()">Portal interno</a>
+    </nav>
+  </div>
+}

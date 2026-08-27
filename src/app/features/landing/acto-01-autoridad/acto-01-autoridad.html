@@ -1,0 +1,55 @@
+<section id="acto-01" class="acto" aria-labelledby="titulo-acto-01" appRevealSection>
+  <div class="frame">
+    <div class="bloque">
+      <p class="eyebrow" data-reveal="up">01 <span class="sep">/</span> Autoridad</p>
+
+      <h2 id="titulo-acto-01" class="titular" data-reveal="line">
+        Mas de 15 anos generando<br />
+        resultados <span class="oro">medibles</span>.
+      </h2>
+
+      <p class="bajada" data-reveal="up">
+        Experiencia real en planta, no teoria de manual.
+      </p>
+
+      <dl class="cifras">
+        @for (c of cifras; track c.rotulo) {
+          <div class="fila" data-reveal="up">
+            <dt>{{ c.rotulo }}</dt>
+            <dd>
+              <span class="valor">
+                @if (c.prefijo) { <span class="afijo">{{ c.prefijo }}</span> }
+                @if (c.numero !== null) {
+                  <span [attr.data-contador]="c.numero">{{ c.numero }}</span>
+                } @else {
+                  <span>{{ c.texto }}</span>
+                }
+                @if (c.sufijo) { <span class="afijo">{{ c.sufijo }}</span> }
+              </span>
+              <span class="descriptor">{{ c.descriptor }}</span>
+            </dd>
+          </div>
+        }
+      </dl>
+
+      <div class="pie-acto" data-reveal="up">
+        <app-boton-ver-mas ruta="/detalle/trayectoria">Ver trayectoria completa</app-boton-ver-mas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cinta de sectores: se desplaza sola, se detiene al pasar el cursor. -->
+  <div class="cinta" aria-hidden="true">
+    <div class="pista">
+      @for (v of [0, 1]; track v) {
+        <span class="grupo">
+          @for (s of sectores; track s) {
+            <span class="sector">{{ s }}</span>
+            <span class="bullet">&#183;</span>
+          }
+        </span>
+      }
+    </div>
+  </div>
+  <p class="sr-only">Sectores atendidos: {{ sectores.join(', ') }}.</p>
+</section>

@@ -1,0 +1,69 @@
+<section id="acto-00" class="hero" aria-labelledby="titulo-hero">
+  <!--
+    Telon: dos paneles opacos POR ENCIMA del contenido. El titular ya esta
+    pintado debajo desde el primer fotograma, asi que el LCP no depende de
+    que termine esta animacion.
+  -->
+  <div class="telon" aria-hidden="true">
+    <div class="panel izq"></div>
+    <div class="panel der"></div>
+    <div class="costura"></div>
+  </div>
+
+  <div class="frame contenido">
+    <div class="bloque">
+      <div class="isotipo" #isotipo [class.oculto]="!heroIsotipoListo()">
+        <!--
+          `pathLength="1"` normaliza el largo de ambos trazos a 1, asi el
+          dibujado se puede animar en CSS sin medir con getTotalLength().
+        -->
+        <svg viewBox="0 0 1448 1086" aria-hidden="true">
+          <path
+            class="trazo trazo-g"
+            pathLength="1"
+            d="M653.35,575.34v-66.39h185.76s-.02,199.31-.02,199.31l.02,9.74s-10.98,8.96-14.36,10.33c-123.41,67.69-284.06,66.02-392.98-27.04-92.36-78.91-130.52-206.61-95.43-323.08,19.53-64.82,59.83-119.19,116.21-156.01,92.46-60.38,224.27-66.7,325.13-24.05,28.29,13.4,54.07,28.03,77.34,50.48l-49.71,58.95c-28.17-23.82-59.1-41.96-95.02-53.16-129.18-35.18-268.58,23.38-299.57,158.75-32.36,141.33,67.16,277.55,214.14,287.73,50.06,2.96,98.06-6.57,143.55-28.17l-.05-97.51-114.99.12Z"
+            fill="var(--color-brand-blue)"
+            stroke="var(--color-brand-blue)"
+          />
+          <path
+            class="trazo trazo-b"
+            pathLength="1"
+            d="M654.29,380.37s221.27-3.39,282.8.04c179.25-1.93,200.73,191.79,85.86,252.87,81.11,28.27,107.01,86.14,100.69,139.96-6.75,90.57-78.86,142.49-164.49,142.05h-305.65v-99.26h74.84v30.72s173.01,1.67,226.08,0c66.31-6.73,95.75-40.95,97.31-80.85,3.22-45.7-35.1-89.04-97.31-93.24-24.78-1.04-59.08-.79-59.08-.79v-66.32c5.51-3.08,130.56,20.18,126.94-85.71-1.23-39.84-29.99-69.56-82.36-70.9-59.32.02-285.63.02-285.63.02v-68.6Z"
+            fill="var(--color-brand-gold)"
+            stroke="var(--color-brand-gold)"
+          />
+        </svg>
+      </div>
+
+      <p class="eyebrow rotulo entrada">
+        00 <span class="sep">/</span> Seguridad <span class="punto">&#183;</span> Salud Ocupacional
+        <span class="punto">&#183;</span> Medio Ambiente <span class="punto">&#183;</span> Calidad
+      </p>
+
+      <!-- Elemento LCP: se pinta de inmediato, sin opacidad ni recorte. -->
+      <h1 id="titulo-hero" class="titular">
+        Gestionamos riesgos,<br />
+        <span class="oro">impulsamos organizaciones.</span>
+      </h1>
+
+      <p class="bajada entrada">
+        Acompanamos a empresas e instituciones en Seguridad, Salud Ocupacional,
+        Medio Ambiente y Calidad.
+      </p>
+
+      <div class="acciones entrada">
+        <app-cta-magnetica href="#acto-05" variante="solida">
+          Hablemos de su proximo proyecto
+        </app-cta-magnetica>
+        <app-cta-magnetica href="#acto-03" variante="fantasma">
+          Ver como trabajamos
+        </app-cta-magnetica>
+      </div>
+    </div>
+  </div>
+
+  <a href="#acto-01" class="indicador entrada" [class.oculto]="scrolleado()">
+    <span class="linea" aria-hidden="true"></span>
+    Deslice para comenzar
+  </a>
+</section>

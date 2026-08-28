@@ -17,7 +17,7 @@ export interface HelmetParts {
   disposables: { dispose(): void }[];
 }
 
-const MODEL_URL = '/models/casco.glb';
+const MODEL_URL = './models/casco.glb';
 
 /**
  * Radio en el que se normaliza el modelo cargado: mismo valor que `scene.ts`

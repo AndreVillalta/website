@@ -93,12 +93,21 @@ export class CascoFlotante implements OnDestroy {
       this.conWebgl.set(false);
     });
 
-    this.observadorTamano = new ResizeObserver(([entrada]) => {
-      const { width, height } = entrada.contentRect;
-      escena.resize(width, height);
-    });
+    // El canvas puede medir 0 si se lo observa antes de que el layout lo haya
+    // colocado. Cuando eso pasa, `resize` corta por lo sano y no encuadra la
+    // camara, y si el ResizeObserver no vuelve a avisar —solo avisa cuando el
+    // tamano *cambia*— la escena se queda sin encuadrar para siempre: camara
+    // en el origen, dentro del casco, pantalla negra.
+    //
+    // El viewport es la medida correcta y no una estimacion: `.escenario` es
+    // `position: fixed; inset: 0`, asi que el canvas siempre lo ocupa entero.
+    const medir = () => {
+      escena.resize(canvas.clientWidth || window.innerWidth, canvas.clientHeight || window.innerHeight);
+    };
+
+    this.observadorTamano = new ResizeObserver(medir);
     this.observadorTamano.observe(canvas);
-    escena.resize(canvas.clientWidth, canvas.clientHeight);
+    medir();
     this.listo.set(true);
 
     // Con movimiento reducido queda un unico fotograma quieto. Hay que pintarlo:

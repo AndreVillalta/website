@@ -212,6 +212,17 @@ export function crearEscenaCasco(
     raf = requestAnimationFrame(bucle);
   }
 
+  // Encuadre de arranque. `encuadrarCamara` solo corria desde `resize`, asi que
+  // hasta el primer aviso de tamano la camara se quedaba en el origen —dentro
+  // del casco, con `vw`/`vh` en 0.01— y no habia nada que ver. Normalmente ese
+  // aviso llega enseguida y no se nota; cuando no llega (canvas medido en 0 al
+  // observarlo, y el ResizeObserver solo vuelve a avisar si el tamano cambia)
+  // el negro era definitivo. Encuadrar aca hace que el peor caso sea un
+  // aspecto momentaneamente inexacto en vez de una pantalla vacia.
+  const aspectoInicial = window.innerWidth / window.innerHeight || 1;
+  encuadrarCamara(aspectoInicial);
+  bg.material.uniforms['uAspect'].value = aspectoInicial;
+
   return {
     deriva: q.deriva,
     compacto: q.compacto,

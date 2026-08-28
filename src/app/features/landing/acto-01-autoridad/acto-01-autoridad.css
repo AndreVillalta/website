@@ -49,7 +49,9 @@ dt {
 
 /* --- Cinta de sectores ---------------------------------------------------- */
 .cinta {
-  margin-top: 0.75rem;
+  /* Aire de sobra respecto del boton de arriba: pegados se leian como un
+     solo bloque. */
+  margin-top: 2.5rem;
   padding-block: 0.5rem;
   overflow: hidden;
   border-block: 1px solid color-mix(in srgb, var(--color-bone) 8%, transparent);

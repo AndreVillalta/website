@@ -93,12 +93,18 @@ function ajustePorAlto(): number {
  */
 function encuadreCompacto(id: string, encuadre: Encuadre): gsap.TweenVars {
   const base = {
+    // Solo el Hero tiene una banda propia (ver ANCLA_COMPACTA): el resto de
+    // los actos, en movil, es una sola columna de texto a todo el ancho sin
+    // hueco reservado para el objeto. Centrado y a tamano casi completo
+    // caia justo encima de las cifras/listas (tapaba numeros y palabras). Se
+    // lo achica y apaga bastante mas que antes para que quede de fondo, no
+    // encima del texto.
     x: 0,
     y: 0,
     rotateY: 0,
-    scale: encuadre.scale * 0.95,
-    luz: encuadre.luz * 0.85,
-    halo: encuadre.halo,
+    scale: encuadre.scale * 0.45,
+    luz: encuadre.luz * 0.55,
+    halo: encuadre.halo * 0.6,
   };
 
   const ancla = ANCLA_COMPACTA[id];

@@ -92,12 +92,9 @@
   height: clamp(2rem, 5vw, 2.8rem);
 }
 
-.marca .logo-mobile { display: block; }
-
-@media (min-width: 900px) {
-  .marca .logo-mobile { display: none; }
-  .marca .logo-desktop { display: block; }
-}
+/* El lockup completo entra bien incluso en el header angosto: mismo criterio
+   que ya usa el Hero, que lo usa en movil sin recortarlo (ver acto-00-hero.html). */
+.marca .logo-desktop { display: block; }
 
 /* Zona central. */
 .enlaces {

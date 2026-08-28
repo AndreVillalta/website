@@ -7,6 +7,15 @@ export interface QualityTier {
   maxPixels: number;
   /** En movil el casco se queda centrado: solo cambian luz, escala y opacidad. */
   deriva: boolean;
+  /**
+   * Viewport angosto de verdad (<768px), no "equipo modesto".
+   *
+   * `deriva` tambien se apaga en un portatil de pocos nucleos, y ahi la
+   * composicion sigue siendo la de escritorio. La direccion de arte del Hero
+   * en movil —casco abajo, texto arriba— depende del ancho de pantalla y de
+   * nada mas, asi que necesita su propia bandera.
+   */
+  compacto: boolean;
 }
 
 /**
@@ -21,7 +30,8 @@ export interface QualityTier {
  */
 export function detectQuality(): QualityTier {
   const cores = navigator.hardwareConcurrency ?? 8;
-  const modesto = isMobileViewport() || cores <= 4;
+  const compacto = isMobileViewport();
+  const modesto = compacto || cores <= 4;
 
   if (modesto) {
     return {
@@ -31,6 +41,7 @@ export function detectQuality(): QualityTier {
       dprCap: 1.25,
       maxPixels: 9e5,
       deriva: false,
+      compacto,
     };
   }
 
@@ -43,5 +54,6 @@ export function detectQuality(): QualityTier {
     dprCap: 1.5,
     maxPixels: 1.8e6,
     deriva: true,
+    compacto: false,
   };
 }

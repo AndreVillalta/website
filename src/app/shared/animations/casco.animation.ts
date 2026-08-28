@@ -43,6 +43,70 @@ const RECORRIDO: Record<string, Encuadre> = {
   'acto-05': { x: 0,   y: -16, rotateY: -95, scale: 1.18, luz: 1,    halo: 1.35 },
 };
 
+/**
+ * Anclaje del casco en viewports angostos (<768px).
+ *
+ * En movil el casco se renderiza centrado en la pantalla —`quality.ts` apaga
+ * la deriva lateral porque no hay ancho donde derivar— y en el Hero eso lo
+ * dejaba justo encima del titular: ni el objeto ni el texto se leian. Aca el
+ * Hero parte la pantalla en dos bandas: el texto arranca pegado al header y el
+ * casco baja a ocupar el resto, mas grande y a plena luz, para que la marca
+ * tenga presencia propia en vez de disputarle los pixeles al titular.
+ *
+ * Solo el acto 00 se mueve: el resto sigue centrado como hasta ahora, y por
+ * eso los valores que faltan caen al comportamiento anterior.
+ *
+ * `.hero` reserva la banda de abajo en CSS (ver `acto-00-hero.css`); estos
+ * numeros son la otra mitad del mismo acuerdo y hay que moverlos juntos.
+ */
+const ANCLA_COMPACTA: Record<string, Partial<Encuadre>> = {
+  // y en unidades de viewport y hacia abajo (Y+ es arriba): el centro del
+  // casco cae al ~76 % del alto, dentro del hueco que deja el bloque de texto.
+  'acto-00': { y: -26, scale: 1.3, luz: 1, halo: 1.15 },
+};
+
+/** Alto de viewport a partir del cual el Hero entra completo en dos bandas. */
+const ALTO_COMODO = 780;
+/** Por debajo de este alto la banda libre ya no da ni para el piso del casco. */
+const ALTO_MINIMO = 480;
+
+/**
+ * En pantallas cortas —un iPhone SE ronda los 667px— el bloque de texto se
+ * come casi todo el alto y la banda libre se angosta mucho mas rapido de lo
+ * que se acorta la pantalla: el texto ocupa lo que ocupa, y lo que se pierde
+ * sale entero del hueco de abajo. De ahi que la caida no sea proporcional al
+ * alto sino al alto *sobrante*, y que a 667px el casco quede bastante mas
+ * chico que la regla de tres. El piso evita que se vuelva un adorno.
+ *
+ * Lo que aun asi se cruce con la bajada queda cubierto por el velo del Hero:
+ * es la misma degradacion que hace la referencia, el objeto pasa a fondo en
+ * vez de desaparecer.
+ */
+function ajustePorAlto(): number {
+  const sobrante = (window.innerHeight - ALTO_MINIMO) / (ALTO_COMODO - ALTO_MINIMO);
+  return Math.min(1, Math.max(0.62, sobrante));
+}
+
+/**
+ * Encuadre efectivo en movil: centrado en X —no hay ancho para derivar— con
+ * el anclaje del acto encima, si lo tiene.
+ */
+function encuadreCompacto(id: string, encuadre: Encuadre): gsap.TweenVars {
+  const base = {
+    x: 0,
+    y: 0,
+    rotateY: 0,
+    scale: encuadre.scale * 0.95,
+    luz: encuadre.luz * 0.85,
+    halo: encuadre.halo,
+  };
+
+  const ancla = ANCLA_COMPACTA[id];
+  if (!ancla) return base;
+
+  return { ...base, ...ancla, scale: (ancla.scale ?? base.scale) * ajustePorAlto() };
+}
+
 /** Orden de lectura de los actos: mismo orden en el que se declara `RECORRIDO`. */
 export const ACTO_IDS = Object.keys(RECORRIDO);
 
@@ -68,7 +132,17 @@ export async function activarCasco(t: CascoTargets): Promise<() => void> {
 
   progresoActual = 0;
   const inicial = RECORRIDO['acto-00'];
-  gsap.set(escena.encuadre, escena.deriva ? inicial : { ...inicial, x: 0, y: 0, rotateY: 0 });
+
+  // Tres composiciones posibles: escritorio con deriva, movil con el casco
+  // anclado abajo, y el caso intermedio —equipo modesto en pantalla ancha—
+  // que se queda quieto en el centro.
+  let apertura: gsap.TweenVars = inicial;
+  if (!escena.deriva) {
+    apertura = escena.compacto
+      ? encuadreCompacto('acto-00', inicial)
+      : { ...inicial, x: 0, y: 0, rotateY: 0 };
+  }
+  gsap.set(escena.encuadre, apertura);
 
   return () => {};
 }
@@ -90,10 +164,14 @@ export async function irAlActo(
 
   const { gsap } = await loadGsap();
 
-  // En movil el casco se queda centrado: solo cambian luz, escala y halo.
-  const vars: gsap.TweenVars = escena.deriva
-    ? { ...encuadre }
-    : { scale: encuadre.scale * 0.95, luz: encuadre.luz * 0.85, halo: encuadre.halo };
+  // Sin deriva el casco no se corre de lugar: solo cambian luz, escala y halo
+  // —salvo en movil, donde `encuadreCompacto` ademas lo ancla (ver arriba).
+  let vars: gsap.TweenVars = { ...encuadre };
+  if (!escena.deriva) {
+    vars = escena.compacto
+      ? encuadreCompacto(id, encuadre)
+      : { scale: encuadre.scale * 0.95, luz: encuadre.luz * 0.85, halo: encuadre.halo };
+  }
 
   gsap.to(escena.encuadre, { ...vars, duration: duracion, ease });
 

@@ -22,6 +22,12 @@ export interface CascoEscena {
   /** Si false, el equipo no aguanta la deriva lateral y el casco se queda centrado. */
   readonly deriva: boolean;
   /**
+   * Viewport angosto (<768px). No es lo mismo que `!deriva`: un portatil de
+   * pocos nucleos tampoco deriva, pero conserva la composicion de escritorio.
+   * Ver `quality.ts`.
+   */
+  readonly compacto: boolean;
+  /**
    * GSAP escribe aca directamente y el bucle rAF lo lee. Sin callbacks por
    * frame: el scroll y el render corren a frecuencias distintas.
    */
@@ -208,6 +214,7 @@ export function crearEscenaCasco(
 
   return {
     deriva: q.deriva,
+    compacto: q.compacto,
     encuadre,
 
     setProgreso(valor: number) {

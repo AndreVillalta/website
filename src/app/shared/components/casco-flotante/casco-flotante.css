@@ -71,12 +71,19 @@
   -webkit-mask-image: radial-gradient(ellipse 70% 78% at 50% 50%, #000 55%, transparent 100%);
 }
 
+/*
+  Mismo reparto que el Hero en movil: el casco baja a la banda inferior, la
+  que el bloque de texto deja libre (ver `acto-00-hero.css` y `ANCLA_COMPACTA`
+  en `casco.animation.ts`). El respaldo no sigue el recorrido acto por acto,
+  asi que se lo deja fijo en el encuadre del Hero.
+*/
 @media (max-width: 767px) {
   .casco-video {
     left: 50%;
-    width: min(78vw, 420px);
-    margin-left: calc(min(78vw, 420px) / -2);
-    margin-top: -16vh;
-    opacity: 0.55;
+    width: min(86vw, 460px);
+    margin-left: calc(min(86vw, 460px) / -2);
+    /* `top: 50%` posa el borde superior en el centro; de ahi baja a la banda. */
+    margin-top: 12vh;
+    opacity: 0.8;
   }
 }

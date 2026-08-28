@@ -234,6 +234,123 @@
 }
 
 /* ---------------------------------------------------------------------------
+   Movil — el casco y el texto dejan de disputarse la misma franja.
+
+   Por debajo de 768px el casco se renderiza centrado en el viewport
+   (`quality.ts` apaga la deriva lateral: no hay ancho donde derivar) y el
+   bloque de texto tambien vivia centrado. Los dos caian encima del mismo eje:
+   el objeto tapaba el titular, la marca se perdia contra el, y sobraba
+   pantalla vacia arriba y abajo.
+
+   Aca la seccion se parte en dos bandas. El texto arranca pegado al header y
+   el indicador se ancla al pie; el hueco que queda en el medio es la banda
+   donde cae el casco, que baja y crece desde `ANCLA_COMPACTA`
+   (`casco.animation.ts`). Los dos numeros son el mismo acuerdo: si se toca el
+   alto de esta pila, hay que revisar el anclaje.
+--------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+  /*
+    `stretch` en vez de `center`: el bloque toma el alto completo de la
+    seccion, y es eso lo que permite anclar el indicador abajo y dejar el
+    medio libre.
+  */
+  .hero {
+    align-items: stretch;
+    /* Arriba despeja el header fijo; abajo, el respiro del indicador. */
+    padding-block: clamp(6.25rem, 13svh, 8rem) 2rem;
+  }
+
+  .contenido { display: flex; }
+
+  .bloque {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  /*
+    La marca es la pieza con mas peso de la pantalla —es justamente lo que le
+    faltaba al Hero en movil— asi que ocupa casi todo el ancho util en vez del
+    piso de 17rem que heredaba del clamp.
+  */
+  .marca-hero {
+    width: min(19rem, 100%);
+    margin-top: 1.25rem;
+  }
+
+  .titular {
+    margin-top: 1.25rem;
+    /*
+      Medio paso por encima del piso del clamp global: en el ancho de un
+      telefono el titular es lo que sostiene el mensaje, y a 1.75rem quedaba
+      demasiado cerca del cuerpo de la bajada.
+    */
+    font-size: 1.9rem;
+  }
+
+  .bajada { margin-top: 1.5rem; }
+
+  /*
+    Al pie de la seccion, no al final de la pila. `align-self` conserva el
+    ancho por contenido: como item de un flex column, el `inline-flex` se
+    estiraria de lado a lado.
+  */
+  .indicador {
+    align-self: flex-start;
+    margin-top: auto;
+  }
+
+  /*
+    Velo de contraste. El de escritorio corre en horizontal porque alli el
+    casco esta al costado del texto; aca corre en vertical, porque esta
+    debajo. En pantallas cortas la banda del casco sube hasta rozar la bajada
+    y sin esto el texto perderia contraste contra el brillo del objeto.
+
+    Se apaga bastante antes del borde inferior: el casco tiene que quedar a
+    plena luz, y un velo que llegue al canto de la seccion repone la franja
+    recta que el velo de escritorio ya venia evitando.
+  */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-ink-900) 60%, transparent) 0%,
+      color-mix(in srgb, var(--color-ink-900) 74%, transparent) 36%,
+      color-mix(in srgb, var(--color-ink-900) 34%, transparent) 62%,
+      transparent 80%
+    );
+  }
+}
+
+/*
+  Telefono corto (un iPhone SE ronda los 667px de alto). El texto ocupa lo
+  mismo que en una pantalla larga, asi que todo lo que falta sale de la banda
+  del casco. Se recorta el aire de la pila —no su orden ni su jerarquia— para
+  devolverle unos milimetros al objeto; el resto lo pone `ajustePorAlto` en
+  `casco.animation.ts`, que ademas lo achica.
+*/
+@media (max-width: 767px) and (max-height: 730px) {
+  .hero { padding-block: 6rem 1.75rem; }
+
+  /* Sigue por encima del piso de 17rem que tenia antes: la marca no cede. */
+  .marca-hero {
+    width: min(17.5rem, 100%);
+    margin-top: 1rem;
+  }
+
+  .titular {
+    margin-top: 1rem;
+    font-size: 1.7rem;
+  }
+
+  .bajada { margin-top: 1.25rem; }
+}
+
+/* ---------------------------------------------------------------------------
    Movimiento reducido: sin telon, sin entradas escalonadas.
    Todo llega directo a su estado final.
 --------------------------------------------------------------------------- */

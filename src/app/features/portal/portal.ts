@@ -17,7 +17,7 @@ import { Seo } from '../../core/services/seo';
   template: `
     <section class="portal">
       <div class="tarjeta">
-        <img src="/logo-footer.svg" alt="GB Consultores" width="56" height="42" />
+        <img src="logo-footer.svg" alt="GB Consultores" width="56" height="42" />
 
         <p class="eyebrow">Acceso restringido</p>
         <h1>Portal interno</h1>

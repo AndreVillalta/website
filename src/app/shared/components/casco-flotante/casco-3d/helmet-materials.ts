@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 /** Mismo archivo que usa el header: una sola fuente de verdad para la marca. */
-const ISOTIPO_URL = '/logo-header-mobile.svg';
+const ISOTIPO_URL = 'logo-header-mobile.svg';
 
 /**
  * Material del isotipo.

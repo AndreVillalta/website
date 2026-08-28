@@ -1,13 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   afterNextRender,
   signal,
-  viewChild,
 } from '@angular/core';
-import { heroIsotipoListo, heroIsotipoRef } from '../../../shared/animations/logo-flip';
-import { CtaMagnetica } from '../../../shared/components/cta-magnetica/cta-magnetica';
 
 /**
  * Acto 00 — El plano de apertura.
@@ -21,16 +17,11 @@ import { CtaMagnetica } from '../../../shared/components/cta-magnetica/cta-magne
 @Component({
   selector: 'app-acto-00-hero',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CtaMagnetica],
   templateUrl: './acto-00-hero.html',
   styleUrl: './acto-00-hero.css',
 })
 export class Acto00Hero {
   protected readonly scrolleado = signal(false);
-  /** Reexportado para el template: ver `logo-flip.ts`. */
-  protected readonly heroIsotipoListo = heroIsotipoListo;
-
-  private readonly isotipo = viewChild<ElementRef<HTMLElement>>('isotipo');
 
   constructor() {
     afterNextRender(() => {
@@ -38,8 +29,6 @@ export class Acto00Hero {
         passive: true,
         once: true,
       });
-
-      heroIsotipoRef.current = this.isotipo()?.nativeElement ?? null;
     });
   }
 }

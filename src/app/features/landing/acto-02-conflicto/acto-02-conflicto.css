@@ -14,32 +14,34 @@
   );
 }
 
-.entrada { max-width: 44rem; }
-
+/*
+  Tres filas apiladas, no tres columnas: dentro de la columna compartida las
+  tarjetas lado a lado quedaban angostas, y el parallax que las escalonaba en
+  vertical rompia el borde izquierdo comun. Mismo ritmo que
+  `.lista-editorial` (indice / titulo / texto) del acto 03.
+*/
 .tensiones {
-  display: grid;
-  gap: 1.75rem;
-  margin-top: 2.5rem;
+  margin-top: 1rem;
   list-style: none;
-}
-
-@media (min-width: 900px) {
-  .tensiones {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.25rem;
-  }
-  /* Parallax estatico: cada bloque descansa a distinta altura. */
-  .tensiones > li:nth-child(2) { transform: translateY(2.5rem); }
-  .tensiones > li:nth-child(3) { transform: translateY(-1.5rem); }
-}
-
-.tensiones > li {
-  padding-top: 1rem;
   border-top: 1px solid color-mix(in srgb, var(--color-bone) 12%, transparent);
 }
 
+.tensiones > li {
+  display: grid;
+  gap: 0.25rem 2rem;
+  grid-template-columns: 1fr;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-bone) 12%, transparent);
+}
+
+@media (min-width: 768px) {
+  .tensiones > li {
+    grid-template-columns: 4rem minmax(0, 15rem) minmax(0, 1fr);
+    align-items: baseline;
+  }
+}
+
 .indice {
-  display: block;
   font-size: var(--text-meta);
   letter-spacing: var(--text-meta--letter-spacing);
   font-variant-numeric: tabular-nums;
@@ -47,28 +49,25 @@
 }
 
 .tensiones h3 {
-  margin-top: 1.25rem;
   font-size: clamp(1.2rem, 2vw, 1.55rem);
   font-weight: 200;
   color: var(--color-bone);
 }
 
 .tensiones p {
-  margin-top: 0.85rem;
   font-size: var(--text-body);
   line-height: var(--text-body--line-height);
   color: var(--color-bone-dim);
 }
 
-/* El silencio antes de la respuesta. */
+/* El silencio antes de la respuesta. Alineado al mismo borde que el resto. */
 .veredicto {
   max-width: 40rem;
-  margin: clamp(2rem, 5vh, 3.5rem) auto 0;
+  margin-top: clamp(1.5rem, 4vh, 2.5rem);
   font-size: clamp(1.4rem, 3vw, 2.25rem);
   font-weight: 200;
   line-height: 1.3;
   letter-spacing: -0.02em;
-  text-align: center;
   text-wrap: balance;
   color: var(--color-bone);
 }

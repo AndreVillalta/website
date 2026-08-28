@@ -1,7 +1,7 @@
 :host { display: block; }
 
-.entrada { max-width: 44rem; }
-
-@media (min-width: 1024px) {
-  .entrada { max-width: 40rem; }
-}
+/*
+  Sin reglas de ancho propias: el rotulo, el titular, la bajada y la lista
+  editorial cuelgan de la columna compartida (`.columna` en styles.css), que
+  es la que fija el ancho unico de todos los actos.
+*/

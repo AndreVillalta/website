@@ -11,7 +11,6 @@ import { observarActoActivo } from '../../animations/acto-activo';
 import { activarSnapScroll } from '../../animations/acto-snap';
 import { activarCasco, irAlActo } from '../../animations/casco.animation';
 import { prefersReducedMotion } from '../../animations/gsap-core';
-import { manejarCambioDeActo } from '../../animations/logo-flip';
 import { ACTOS } from '../rail-scroll/rail-scroll';
 import type { CascoEscena } from './casco-3d/scene';
 
@@ -121,7 +120,6 @@ export class CascoFlotante implements OnDestroy {
     let primerAviso = true;
     const ids = ACTOS.map((acto) => acto.id);
     const detenerObservador = observarActoActivo(ids, (indice) => {
-      void manejarCambioDeActo(indice);
       if (primerAviso) {
         primerAviso = false;
         return;

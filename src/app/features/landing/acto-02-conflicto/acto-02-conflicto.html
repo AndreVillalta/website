@@ -1,6 +1,6 @@
 <section id="acto-02" class="acto conflicto" aria-labelledby="titulo-acto-02" appRevealSection>
   <div class="frame">
-    <div class="entrada">
+    <div class="columna">
       <p class="eyebrow" data-reveal="up">02 <span class="sep">/</span> El conflicto</p>
 
       <h2 id="titulo-acto-02" class="titular">
@@ -13,20 +13,20 @@
         certificacion que vence. La mayoria de las organizaciones no falla por
         falta de intencion: falla por falta de sistema.
       </p>
+
+      <ol class="tensiones">
+        @for (t of tensiones; track t.indice) {
+          <li data-reveal="up">
+            <span class="indice" aria-hidden="true">{{ t.indice }}</span>
+            <h3>{{ t.titulo }}</h3>
+            <p>{{ t.texto }}</p>
+          </li>
+        }
+      </ol>
+
+      <p class="veredicto" data-reveal="blur">
+        Ninguna de las tres se resuelve con un informe mas.
+      </p>
     </div>
-
-    <ol class="tensiones">
-      @for (t of tensiones; track t.indice) {
-        <li data-reveal="up">
-          <span class="indice" aria-hidden="true">{{ t.indice }}</span>
-          <h3>{{ t.titulo }}</h3>
-          <p>{{ t.texto }}</p>
-        </li>
-      }
-    </ol>
-
-    <p class="veredicto" data-reveal="blur">
-      Ninguna de las tres se resuelve con un informe mas.
-    </p>
   </div>
 </section>

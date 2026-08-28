@@ -1,28 +1,29 @@
 :host { display: block; }
 
-.entrada { max-width: 44rem; }
-
+/*
+  Cuatro filas apiladas, no una grilla 2x2: dentro de la columna compartida la
+  segunda columna arrancaba en un borde propio (el `padding-left` del
+  separador en cruz) y rompia la alineacion con el titular y el boton.
+*/
 .pilares {
-  display: grid;
-  gap: 0;
-  margin-top: 2rem;
+  margin-top: 1rem;
   list-style: none;
   border-top: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
 }
 
-@media (min-width: 768px) {
-  .pilares { grid-template-columns: repeat(2, 1fr); }
-  /* Separadores en cruz entre los cuatro pilares. */
-  .pilares > li:nth-child(odd) {
-    border-right: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
-    padding-right: 2.5rem;
-  }
-  .pilares > li:nth-child(even) { padding-left: 2.5rem; }
+.pilares > li {
+  display: grid;
+  gap: 0.25rem 2rem;
+  grid-template-columns: 1fr;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
 }
 
-.pilares > li {
-  padding-block: 1rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);
+@media (min-width: 768px) {
+  .pilares > li {
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+    align-items: baseline;
+  }
 }
 
 .pilares h3 {
@@ -32,7 +33,6 @@
 }
 
 .pilares p {
-  margin-top: 0.7rem;
   font-size: var(--text-body);
   line-height: var(--text-body--line-height);
   color: var(--color-bone-dim);

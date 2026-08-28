@@ -1,53 +1,54 @@
 <section id="acto-04" class="acto" aria-labelledby="titulo-acto-04" appRevealSection>
   <div class="frame">
-    <div class="entrada">
+    <!-- El casco vive a la izquierda en este acto: la columna se corre a la derecha. -->
+    <div class="columna columna-derecha">
       <p class="eyebrow" data-reveal="up">04 <span class="sep">/</span> Por que nos eligen</p>
 
       <h2 id="titulo-acto-04" class="titular" data-reveal="line">
         Mas que un proveedor,<br />
         un <span class="oro">socio estrategico</span>.
       </h2>
-    </div>
 
-    <ul class="pilares">
-      @for (p of pilares; track p.titulo) {
-        <li data-reveal="up">
-          <h3>{{ p.titulo }}</h3>
-          <p>{{ p.texto }}</p>
-        </li>
-      }
-    </ul>
+      <ul class="pilares">
+        @for (p of pilares; track p.titulo) {
+          <li data-reveal="up">
+            <h3>{{ p.titulo }}</h3>
+            <p>{{ p.texto }}</p>
+          </li>
+        }
+      </ul>
 
-    <div class="prueba">
-      <p class="eyebrow puente" data-reveal="up">Lo que dicen nuestros clientes</p>
+      <div class="prueba">
+        <p class="eyebrow puente" data-reveal="up">Lo que dicen nuestros clientes</p>
 
-      @if (testimonios.length) {
-        <blockquote class="testimonio" data-reveal="up">
-          <p>{{ testimonios[0].cita }}</p>
-          <footer>
-            <cite>{{ testimonios[0].nombre }}</cite>
-            <span>{{ testimonios[0].cargo }} &#183; {{ testimonios[0].empresa }}</span>
-          </footer>
-        </blockquote>
-      } @else {
-        <!--
-          Espacio reservado. No se publican testimonios ni logotipos inventados:
-          serian declaraciones falsas atribuidas a clientes reales. Cargar en
-          `testimonios` y `logos` del componente cuando esten aprobados.
-        -->
-        <div class="reservado" data-reveal="up">
-          <p class="marca-reservado">Contenido pendiente de validacion</p>
-          <p class="detalle">
-            Espacio reservado para testimonios de clientes y logotipos de
-            organizaciones. Se publica una vez recibidas las citas reales
-            —con nombre, cargo y empresa— y la autorizacion de uso de marca.
-          </p>
-        </div>
-      }
-    </div>
+        @if (testimonios.length) {
+          <blockquote class="testimonio" data-reveal="up">
+            <p>{{ testimonios[0].cita }}</p>
+            <footer>
+              <cite>{{ testimonios[0].nombre }}</cite>
+              <span>{{ testimonios[0].cargo }} &#183; {{ testimonios[0].empresa }}</span>
+            </footer>
+          </blockquote>
+        } @else {
+          <!--
+            Espacio reservado. No se publican testimonios ni logotipos inventados:
+            serian declaraciones falsas atribuidas a clientes reales. Cargar en
+            `testimonios` y `logos` del componente cuando esten aprobados.
+          -->
+          <div class="reservado" data-reveal="up">
+            <p class="marca-reservado">Contenido pendiente de validacion</p>
+            <p class="detalle">
+              Espacio reservado para testimonios de clientes y logotipos de
+              organizaciones. Se publica una vez recibidas las citas reales
+              —con nombre, cargo y empresa— y la autorizacion de uso de marca.
+            </p>
+          </div>
+        }
+      </div>
 
-    <div class="pie-acto" data-reveal="up">
-      <app-boton-ver-mas ruta="/detalle/diferenciador">Ver mas</app-boton-ver-mas>
+      <div class="pie-acto" data-reveal="up">
+        <app-boton-ver-mas ruta="/detalle/diferenciador">Ver mas</app-boton-ver-mas>
+      </div>
     </div>
   </div>
 </section>

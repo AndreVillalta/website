@@ -5,7 +5,9 @@
 .rail {
   position: fixed;
   top: 50%;
-  left: max(2.5rem, calc((100vw - 88rem) / 2 + 3.5rem));
+  /*left: max(2.5rem, calc((100vw - 88rem) / 2 + 3.5rem));*/
+  /*left: max(2.5rem, calc((100vw - 88rem) / 2 - 8rem));*/
+  left: clamp(1.5rem, 4vw, 4rem);
   z-index: 30;
   transform: translateY(-50%);
   display: none;

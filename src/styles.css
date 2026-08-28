@@ -45,9 +45,15 @@
   --text-eyebrow--line-height: 1.4;
   --text-eyebrow--letter-spacing: 0.28em;
 
-  --text-display: clamp(2.6rem, 6.4vw, 5.75rem);
-  --text-display--line-height: 0.95;
-  --text-display--letter-spacing: -0.03em;
+  /*
+   * Escala del titular del Hero. Ya no es el elemento mas grande de esa
+   * pantalla —ese lugar lo ocupa el logotipo— sino la bajada de marca que va
+   * debajo, asi que baja de 5.75rem a 2.75rem y afloja el interlineado, que
+   * a 0.95 solo funcionaba en cuerpos enormes.
+   */
+  --text-display: clamp(1.75rem, 2.8vw, 2.6rem);
+  --text-display--line-height: 1.15;
+  --text-display--letter-spacing: -0.02em;
 
   --text-acto: clamp(2rem, 5.5vw, 4.5rem);
   --text-acto--line-height: 1;
@@ -66,8 +72,14 @@
   /* Ritmo de la pelicula */
   --ease-cine: cubic-bezier(0.16, 1, 0.3, 1);
 
-  /* Gutter reservado para el indice lateral en pantallas anchas. */
-  --rail-gutter: 17rem;
+  /*
+   * Gutter reservado para el indice lateral en pantallas anchas.
+   * Se deriva de la posicion del propio rail (`rail-scroll.css` lo ancla en
+   * `clamp(1.5rem, 4vw, 4rem)`) mas su ancho y un respiro: asi el texto
+   * nunca queda por debajo del indice aunque se mueva uno de los dos.
+   */
+  --rail-offset: clamp(1.5rem, 4vw, 4rem);
+  --rail-gutter: calc(var(--rail-offset) + 13rem);
 }
 
 /* ---------------------------------------------------------------------------
@@ -146,7 +158,7 @@
 /* Marco de encuadre: el contenedor de todos los actos */
 @utility frame {
   width: 100%;
-  max-width: 88rem;
+  max-width: 120rem;
   margin-inline: auto;
   padding-inline: 1.5rem;
 }
@@ -218,6 +230,24 @@
     justify-content: center;
     min-height: 100dvh;
     padding-block: clamp(2rem, 4vh, 3.5rem);
+  }
+
+  /*
+   * Columna de texto: la misma estructura en todos los actos.
+   *
+   * Rotulo, titular, bajada, lista y boton cuelgan de un unico borde
+   * izquierdo —ninguno lleva `text-align` propio— y la columna entera se
+   * corre al lado opuesto del casco en pantallas anchas. Un solo ancho
+   * compartido evita que cada acto invente el suyo (venian de 38 a 46rem,
+   * y se notaba el desalineado al saltar de seccion).
+   */
+  .acto .columna {
+    width: 100%;
+    max-width: 56rem;
+  }
+
+  @media (min-width: 1024px) {
+    .acto .columna-derecha { margin-left: auto; }
   }
 
   /*

@@ -89,15 +89,25 @@
   En desktop el casco pasa por detras del texto —esa superposicion es
   deliberada, da profundidad— pero la legibilidad no puede depender de donde
   quede el objeto. El velo asegura contraste sobre la columna de texto.
+
+  Cuelga del `.hero` y no del bloque de texto: antes era una caja de
+  `inset: -30% ... -30%` alrededor del contenido y, como el degradado solo
+  corre en horizontal, sus bordes superior e inferior quedaban rectos y se
+  leian como dos franjas cruzando la pantalla de extremo a extremo. Cubriendo
+  la seccion entera el degradado es lo unico que se ve.
+
+  z-index 5 lo mete entre el canvas del casco (0) y el contenido (20): `.hero`
+  es `position: relative` sin z-index propio, asi que no abre contexto de
+  apilado y los tres conviven en el mismo.
 */
 @media (min-width: 1024px) {
   .bloque { max-width: 38rem; }
 
-  .contenido::before {
+  .hero::before {
     content: "";
     position: absolute;
-    inset: -30% -20% -30% -50vw;
-    z-index: -1;
+    inset: 0;
+    z-index: 5;
     pointer-events: none;
     background: linear-gradient(
       to right,
@@ -105,62 +115,58 @@
       color-mix(in srgb, var(--color-ink-900) 78%, transparent) 68%,
       transparent 100%
     );
+    /*
+      El borde de abajo coincide con el arranque del acto siguiente, que no
+      lleva velo: sin esta caida se repondria justo ahi el mismo canto recto
+      que se vino a sacar.
+    */
+    -webkit-mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 82%, transparent 100%);
   }
 }
 
-.isotipo {
-  transition: opacity 0.25s var(--ease-cine);
+/* --- La marca abre el hero ------------------------------------------------ */
+/*
+  El lockup es apaisado (viewBox 300x64), asi que se dimensiona por ancho y no
+  por alto como el isotipo suelto que habia antes. El piso del clamp manda en
+  mobile —donde 24vw queda muy por debajo— para que la marca abra con
+  presencia en pantallas angostas; el `max-width` la deja caber igual en la
+  mas angosta de todas.
+*/
+.marca-hero {
+  display: block;
+  width: clamp(17rem, 34vw, 30rem);
+  max-width: 100%;
+  height: auto;
+  margin-top: 1.5rem;
 }
 
-/* Se apaga mientras el clon volador (`logo-flip.ts`) ocupa su lugar rumbo
-   al header, o de vuelta desde ahi. */
-.isotipo.oculto {
-  opacity: 0;
-}
-
-.isotipo svg {
-  width: auto;
-  height: clamp(3.5rem, 7vw, 5.5rem);
-  overflow: visible;
-}
-
-/* El isotipo se dibuja y despues el trazo se convierte en relleno. */
-.trazo {
-  stroke-width: 0.012;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  fill-opacity: 0;
-  stroke-opacity: 1;
-  vector-effect: non-scaling-stroke;
-}
-
-.trazo-g { animation: dibujar 1.5s var(--ease-cine) 0.75s forwards; }
-.trazo-b { animation: dibujar 1.5s var(--ease-cine) 1s forwards; }
-
-@keyframes dibujar {
-  0%   { stroke-dashoffset: 1; fill-opacity: 0; stroke-opacity: 1; }
-  58%  { stroke-dashoffset: 0; fill-opacity: 0; stroke-opacity: 1; }
-  100% { stroke-dashoffset: 0; fill-opacity: 1; stroke-opacity: 0; }
-}
-
-/* Rotulo, bajada y llamadas a la accion entran escalonadas. */
+/* Rotulo, marca, bajada e indicador entran escalonados. */
 .entrada {
   opacity: 0;
   animation: entrar 0.8s var(--ease-cine) forwards;
 }
 
-.rotulo   { animation-delay: 1.15s; }
-.bajada   { animation-delay: 1.3s; }
-.acciones { animation-delay: 1.45s; }
-.indicador { animation-delay: 1.7s; }
+.rotulo     { animation-delay: 0.9s; }
+.marca-hero { animation-delay: 1.05s; }
+.bajada     { animation-delay: 1.3s; }
+.indicador  { animation-delay: 1.5s; }
 
 @keyframes entrar {
   from { opacity: 0; transform: translateY(22px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/*
+  Primer elemento del bloque: ya no cuelga de nada, sin margen superior.
+
+  Tracking mas corto que el `eyebrow` global (0.28em): es el rotulo mas largo
+  del sitio —cuatro servicios separados por puntos— y con el tracking completo
+  no entraba en el ancho de la columna, dejando "· Calidad" en una segunda
+  linea suelta.
+*/
 .rotulo {
-  margin-top: 1.75rem;
+  letter-spacing: 0.16em;
   color: var(--color-brand-gold);
 }
 
@@ -185,32 +191,17 @@
   color: var(--color-bone-dim);
 }
 
-.acciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-top: 2.75rem;
-}
-
-@media (max-width: 560px) {
-  .acciones {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-
-/* --- Indicador de scroll -------------------------------------------------- */
+/* ---------------------------------------------------------------------------
+   Indicador de scroll.
+   Cierra la pila del hero en flujo normal —antes vivia clavado al pie de la
+   seccion y centrado— asi comparte el borde izquierdo con el rotulo, la marca,
+   el titular y la bajada.
+--------------------------------------------------------------------------- */
 .indicador {
-  position: absolute;
-  bottom: 2.5rem;
-  left: 50%;
-  z-index: 20;
-  display: none;
+  display: inline-flex;
   align-items: center;
   gap: 0.9rem;
-  margin-left: -7rem;
-  width: 14rem;
-  justify-content: center;
+  margin-top: 2.5rem;
   color: var(--color-bone-mute);
   font-size: 0.66rem;
   font-weight: 700;
@@ -218,10 +209,6 @@
   text-transform: uppercase;
   white-space: nowrap;
   transition: opacity 0.45s var(--ease-cine), transform 0.45s var(--ease-cine);
-}
-
-@media (min-width: 768px) {
-  .indicador { display: inline-flex; }
 }
 
 .indicador:hover { color: var(--color-bone-dim); }
@@ -247,18 +234,11 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Movimiento reducido: sin telon, sin dibujado, sin entradas escalonadas.
+   Movimiento reducido: sin telon, sin entradas escalonadas.
    Todo llega directo a su estado final.
 --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .telon { display: none; }
-
-  .trazo {
-    animation: none;
-    stroke-dashoffset: 0;
-    fill-opacity: 1;
-    stroke-opacity: 0;
-  }
 
   .entrada {
     animation: none;

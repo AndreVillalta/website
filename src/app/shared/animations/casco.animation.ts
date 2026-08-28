@@ -21,23 +21,23 @@ type Encuadre = EncuadreVivo;
 const RECORRIDO: Record<string, Encuadre> = {
   // Texto a la izquierda: el casco corrido mas a la derecha (8 -> 12) le da
   // mas aire al bloque sin salirse del encuadre.
-  'acto-00': { x: 18,  y: 0,  rotateY: 2,  scale: 1,    luz: 1,    halo: 1 },
+  'acto-00': { x: 25,  y: 0,  rotateY: 2,  scale: 1,    luz: 1,    halo: 1 },
   // `.bloque` solo se alinea a la derecha desde 1024px; por debajo el texto
   // queda a la izquierda igual que el casco. El rail lateral (visible desde
   // 1280px) tambien vive en esta franja izquierda: -21 quedaba escondido
   // detras del rail, no "mas al medio" como se buscaba.
-  'acto-01': { x: -8, y: 2,  rotateY: -7, scale: 0.9,  luz: 0.95, halo: 0.75 },
+  'acto-01': { x: -20, y: 2,  rotateY: -7, scale: 0.9,  luz: 0.95, halo: 0.75 },
   // Tres columnas de texto compitiendo por el mismo ancho: correrlo mas a la
   // derecha (9 -> 18) para que no se meta en la tercera columna ("Riesgo
   // invisible"). Ademas se lo encoge (0.74 -> 0.6): es el acto mas oscuro y
   // el que menos protagonismo necesita.
-  'acto-02': { x: 22,  y: 12,  rotateY: 4,  scale: 0.6,  luz: 0.4,  halo: 0.2 },
+  'acto-02': { x: 22,  y: 12,  rotateY: 4,  scale: 0.7,  luz: 0.4,  halo: 0.2 },
   // Con los actos comprimidos a ~100vh el bloque de texto (eyebrow + titular)
   // quedo mas arriba de lo que este encuadre asumia: a escala 1.02 el casco
   // le tapaba el rotulo "03 / La solucion". Se lo achica, se lo baja (-2 ->
   // -8) y se lo corre mas a la derecha (15 -> 20) para despejar la lista.
   'acto-03': { x: 20,  y: 18, rotateY: 7,  scale: 0.8,  luz: 0.70,    halo: 1.15 },
-  'acto-04': { x: 0, y: 2,  rotateY: -176, scale: 0.8,  luz: 0.55, halo: 0.4 },
+  'acto-04': { x: -18, y: 2,  rotateY: 62, scale: 0.8,  luz: 0.55, halo: 0.4 },
   // Cierre: el casco baja y gira hasta mostrar el isotipo de frente a camara.
   // Y+ es "arriba" en esta escena (ver `scene.ts`): bajarlo es Y NEGATIVO.
   'acto-05': { x: 0,   y: -16, rotateY: -95, scale: 1.18, luz: 1,    halo: 1.35 },

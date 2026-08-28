@@ -1,13 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   afterNextRender,
   signal,
-  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { headerLogoListo, logoSlotRef } from '../../shared/animations/logo-flip';
 
 interface Enlace {
   href: string;
@@ -29,10 +26,6 @@ interface Enlace {
 export class NavHeader {
   protected readonly compacta = signal(false);
   protected readonly menuAbierto = signal(false);
-  /** Reexportado para el template: ver `logo-flip.ts`. */
-  protected readonly headerLogoListo = headerLogoListo;
-
-  private readonly logoSlot = viewChild<ElementRef<HTMLElement>>('logoSlot');
 
   protected readonly enlaces: Enlace[] = [
     { href: '#acto-01', texto: 'Trayectoria' },
@@ -45,13 +38,6 @@ export class NavHeader {
       const alScrollear = () => this.compacta.set(window.scrollY > 80);
       alScrollear();
       window.addEventListener('scroll', alScrollear, { passive: true });
-
-      // Solo en la landing hay un Hero del que "volar": en el resto de las
-      // rutas el logo del header se queda visible siempre (ver `logo-flip.ts`).
-      if (document.getElementById('acto-00')) {
-        logoSlotRef.current = this.logoSlot()?.nativeElement ?? null;
-        headerLogoListo.set(false);
-      }
     });
   }
 

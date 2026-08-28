@@ -1,21 +1,12 @@
 :host { display: block; }
 
-/* Espejo del Hero: el bloque se alinea a la derecha y el casco ocupa la izquierda. */
-.bloque {
-  max-width: 42rem;
-}
-
-@media (min-width: 1024px) {
-  .bloque {
-    margin-left: auto;
-    text-align: right;
-  }
-  .bloque .bajada { margin-left: auto; }
-  .cifras .fila { grid-template-columns: minmax(0, 1fr) 10rem; }
-  .cifras dt { order: 2; text-align: right; }
-  .cifras dd { order: 1; text-align: right; }
-}
-
+/*
+  Espejo del Hero: la columna se corre a la derecha (`columna-derecha`) y el
+  casco ocupa la izquierda. El contenido sigue alineado a la izquierda como en
+  el resto de los actos — antes se invertia con `text-align: right` y las
+  columnas de `.cifras` dadas vuelta, y era lo unico del sitio que no
+  compartia el borde izquierdo.
+*/
 .cifras {
   margin-top: 1rem;
   border-top: 1px solid color-mix(in srgb, var(--color-bone) 10%, transparent);

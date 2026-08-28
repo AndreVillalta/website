@@ -1,12 +1,6 @@
 <header class="cabecera" [class.compacta]="compacta()">
   <nav class="frame barra" aria-label="Navegacion principal">
-    <a
-      href="#acto-00"
-      class="marca"
-      [class.logo-oculto]="!headerLogoListo()"
-      aria-label="GB Consultores, ir al inicio"
-    >
-      <span class="isotipo-slot" #logoSlot aria-hidden="true"></span>
+    <a href="#acto-00" class="marca" aria-label="GB Consultores, ir al inicio">
       <img src="/logo-header-mobile.svg" alt="" class="logo-mobile" aria-hidden="true" />
       <img src="/logo-header-desktop.svg" alt="" class="logo-desktop" aria-hidden="true" />
     </a>
@@ -15,6 +9,9 @@
       @for (e of enlaces; track e.href) {
         <a [href]="e.href" class="enlace">{{ e.texto }}</a>
       }
+    </div>
+
+    <div class="acciones-nav">
       <a href="#acto-05" class="cta-nav">Hablemos</a>
     </div>
 

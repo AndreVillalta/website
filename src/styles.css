@@ -91,6 +91,24 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /*
+    `acto-snap.ts` salta de acto en acto con un solo puntero fino (mouse,
+    trackpad): en touch un "golpe" no es un gesto comparable, asi que ese
+    script se auto-desactiva ahi (ver `hasFinePointer`) y sin esto el dedo
+    quedaba con scroll libre puro, que se siente "trabado" porque cada acto
+    ocupa una pantalla entera. `proximity` (no `mandatory`) deja el swipe
+    completamente libre dentro de un acto mas alto que la pantalla, y solo
+    atrae al borde cuando el gesto ya lo dejo cerca.
+  */
+  @media (pointer: coarse) {
+    html { scroll-snap-type: y proximity; }
+
+    .hero,
+    .acto {
+      scroll-snap-align: start;
+    }
+  }
+
   body {
     background-color: #22202e;
     color: var(--color-bone-dim);
@@ -230,6 +248,21 @@
     justify-content: center;
     min-height: 100dvh;
     padding-block: clamp(2rem, 4vh, 3.5rem);
+    /* Despeja el header fijo (`.cabecera`, ~40px de z-index) en cualquier
+       punto donde el scroll se detenga, sea por un salto animado o por un
+       anchor directo: sin esto el rotulo de arriba puede quedar tapado. */
+    scroll-margin-top: 5.5rem;
+  }
+
+  /*
+    En movil el header fijo (~90px altos) tapaba el rotulo de cada acto
+    cuando el scroll natural se frenaba justo en el borde de la seccion: sin
+    columna lateral que le ceda aire, el contenido arrancaba pegado al tope.
+    Mismo acuerdo que ya usa `.hero` (`acto-00-hero.css`) para el mismo
+    problema.
+  */
+  @media (max-width: 767px) {
+    .acto { padding-block: clamp(6rem, 12svh, 7.5rem) 2.5rem; }
   }
 
   /*

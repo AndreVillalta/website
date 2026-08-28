@@ -1,0 +1,1 @@
+var t=()=>!0;var a=[{path:``,canActivate:[t],loadComponent:()=>import(`./chunk-BDvPj_Rw.js`).then(o=>o.Portal)}];export{a as portalRoutes};
